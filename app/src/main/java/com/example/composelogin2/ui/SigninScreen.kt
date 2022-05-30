@@ -1,6 +1,5 @@
 package com.example.composelogin2.ui
 
-import android.icu.text.CaseMap
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,9 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,9 +33,17 @@ fun SigninScreen(){
 
     ) {
         Title()
-        Email()
-        Password()
-        SigninButton()
+        val emailState = remember { EmailState() }
+        Email(emailState.text, emailState.error){
+            emailState.text = it
+            emailState.validate()
+        }
+        val passwordState = remember { PasswordState()}
+        Password(passwordState.text, passwordState.error){
+            passwordState.text = it
+            passwordState.validate()
+        }
+        SigninButton(enabled = emailState.isValid() && passwordState.isValid())
     }
 }
 
@@ -48,31 +55,40 @@ fun Title() {
     )
 }
 
+@Composable fun Email(email:String,error: String?,onEmailChanged: (String) -> Unit) {
+    Column {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = email,
+            onValueChange = {onEmailChanged(it) },
+            label = { Text(text = stringResource(R.string.email_hint)) },
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(8.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            isError = error!= null
+        )
+
+      error?.let { ErrorField(it)}
+    }
+}
 @Composable
-fun Email() {
-    val emailState = remember { (mutableStateOf(TextFieldValue())) }
-    TextField(
+fun ErrorField(error:String){
+    Text(
+        text = error,
         modifier = Modifier.fillMaxWidth(),
-        value = emailState.value,
-        onValueChange = {emailState.value = it},
-        label = {Text(text = stringResource(R.string.email_hint))},
-        colors = TextFieldDefaults.textFieldColors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        ),
-        shape = RoundedCornerShape(8.dp),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        style = TextStyle(color = MaterialTheme.colors.error)
     )
 }
 
-@Composable
-fun Password() {
-    val passwordState = remember { (mutableStateOf(TextFieldValue()))}
+@Composable fun Password(password:String,error:String?,onPasswordChange:(String) -> Unit) {
     val showPassword = remember {mutableStateOf(false) }
     TextField(
         modifier = Modifier.fillMaxWidth(),
-        value = passwordState.value,
-        onValueChange  = {passwordState.value = it},
+        value = password,
+        onValueChange  = {onPasswordChange(it)},
         label = {Text(text = stringResource(R.string.password_hint))},
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,
@@ -102,14 +118,15 @@ fun Password() {
                     )
                 }
             }
-        }
+        },
+        isError = error !=null
     )
+    error?.let{ErrorField(it)}
 }
 
 
 
-@Composable
-fun SigninButton() {
+@Composable fun SigninButton(enabled:Boolean) {
     Button(
         onClick = {},
         modifier = Modifier.fillMaxWidth()
@@ -117,7 +134,8 @@ fun SigninButton() {
         colors = ButtonDefaults.buttonColors(
             backgroundColor = darkBlue,
             contentColor = Color.White
-        )
+        ),
+        enabled  = (enabled),
     ) {
         Text(
             text = stringResource(R.string.sign_in)
