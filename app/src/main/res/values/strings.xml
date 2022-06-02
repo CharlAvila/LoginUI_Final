@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ComposeLogin2</string>
-    <string name="sign_in_welcome_text">\Hello There!!\nWelcome</string>
+    <string name="sign_in_welcome_text">\tWelcome\n\tto my\n\tMini Project</string>
     <string name="sign_in">Sign In</string>
     <string name="email_hint">Email Address</string>
     <string name="password_hint">Password</string>

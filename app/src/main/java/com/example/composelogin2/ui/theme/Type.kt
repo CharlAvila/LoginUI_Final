@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.sp
 val Typography by lazy {
     Typography(
         h1 = TextStyle(
-            fontFamily = FontFamily.Default,
+            fontFamily = FontFamily.Monospace,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             color = Purple700,

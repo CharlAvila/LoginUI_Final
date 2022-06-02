@@ -1,5 +1,6 @@
 package com.example.composelogin2.ui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,8 +29,11 @@ fun SigninScreen(){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .wrapContentHeight()
+            .padding(16.dp)
+            .border(width = 1.dp, color = Color.Green)
+            .padding(16.dp)
+        ,verticalArrangement = Arrangement.spacedBy(12.dp)
 
     ) {
         Title()
@@ -49,10 +53,18 @@ fun SigninScreen(){
 
 @Composable
 fun Title() {
-    Text(
-        text = stringResource(R.string.sign_in_welcome_text),
-        style = MaterialTheme.typography.h1
-    )
+    Column(
+      modifier = Modifier
+          .fillMaxWidth()
+          .padding(10.dp)
+          .border(width = 1.dp, color = Color.Red)
+          .padding(10.dp)
+    ){
+        Text(
+            text = stringResource(R.string.sign_in_welcome_text),
+            style = MaterialTheme.typography.h1
+        )
+    }
 }
 
 @Composable fun Email(email:String,error: String?,onEmailChanged: (String) -> Unit) {
