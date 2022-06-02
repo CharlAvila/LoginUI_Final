@@ -140,7 +140,8 @@ fun ErrorField(error:String){
 
 @Composable fun SigninButton(enabled:Boolean) {
     Button(
-        onClick = {},
+        onClick = {
+        },
         modifier = Modifier.fillMaxWidth()
         ,contentPadding = PaddingValues(16.dp),
         colors = ButtonDefaults.buttonColors(
