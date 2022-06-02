@@ -157,7 +157,7 @@ fun ErrorField(error:String){
 }
 
 @Composable
-fun MainMe(
+fun MainMe(     //Sample Screen Activity for navigation
 ){
     Column(
         modifier = Modifier
