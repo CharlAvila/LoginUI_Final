@@ -155,3 +155,18 @@ fun ErrorField(error:String){
         )
     }
 }
+
+@Composable
+fun MainMe(
+){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .border(width = 1.dp, color = Color.Red)
+            .padding(16.dp)
+
+    ) {
+
+    }
+}
